@@ -1,0 +1,24 @@
+<resources>
+    <string name="app_name">SubmissionSatu</string>
+    <string name="signup">Daftar</string>
+    <string name="login">Masuk</string>
+    <string name="message_welcome_page">Mau mengetahui skincare recommendation kamu? Di DermAI aja!</string>
+    <string name="title_welcome_page">Selamat datang di DermAI!</string>
+    <string name="title_signup_page">Lengkapi data diri dibawah!</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="message_login_page">Masukkan data dirimu dahulu</string>
+    <string name="title_login_page">Sudah mengetahui skincare recommendation mu?</string>
+    <string name="name">Nama</string>
+    <string name="message_main_page">Selamat Datang di DermAI.</string>
+    <string name="greeting">Halo %1$s,</string>
+    <string name="logout">Keluar</string>
+    <string name="view_stories">Lihat Story DermAI</string>
+    <string name="add_story">Add Story</string>
+    <string name="add_photo">Submit</string>
+    <string name="select_photo">Pilih foto</string>
+    <string name="description">Tambahkan deskripsi disini</string>
+    <string name="select_gallery">Galeri</string>
+    <string name="select_camera">Camera</string>
+    <string name="title_activity_maps">MapsActivity</string>
+</resources>
