@@ -3,6 +3,7 @@ package zfr.mobile.submissionsatu.addstory
 import android.app.Activity
 import android.content.Intent
 import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
@@ -84,7 +85,7 @@ class AddStoryActivity : AppCompatActivity() {
         if (result.resultCode == Activity.RESULT_OK) {
             val data: Intent? = result.data
             selectedImageUri = data?.data
-            selectedImageFile = selectedImageUri?.let { uriToFile(it) }
+            selectedImageFile = selectedImageUri?.let { uriToFile(it) }?.let { compressImage(it) }
 
             Glide.with(this)
                 .load(selectedImageUri)
@@ -99,7 +100,7 @@ class AddStoryActivity : AppCompatActivity() {
             val data: Intent? = result.data
             val photoBitmap = data?.extras?.get("data") as? Bitmap
             photoBitmap?.let {
-                selectedImageFile = bitmapToFile(it)
+                selectedImageFile = bitmapToFile(it)?.let { compressImage(it) }
                 selectedImageUri = Uri.fromFile(selectedImageFile)
 
                 Glide.with(this)
@@ -109,12 +110,18 @@ class AddStoryActivity : AppCompatActivity() {
         }
     }
 
+
     private fun uploadStory() {
         val descriptionText = binding.edAddDescription.text.toString().trim()
 
         if (selectedImageFile != null && descriptionText.isNotBlank()) {
+            if (selectedImageFile!!.length() > 1 * 1024 * 1024) {
+                Toast.makeText(this, "File size should be less than 1MB", Toast.LENGTH_SHORT).show()
+                return
+            }
             val requestFile = selectedImageFile!!.asRequestBody("image/jpeg".toMediaTypeOrNull())
-            val body = MultipartBody.Part.createFormData("photo", selectedImageFile!!.name, requestFile)
+            val body =
+                MultipartBody.Part.createFormData("photo", selectedImageFile!!.name, requestFile)
             val description = descriptionText.toRequestBody("text/plain".toMediaTypeOrNull())
 
             viewModel.addStory(description, body).observe(this) { success ->
@@ -128,7 +135,11 @@ class AddStoryActivity : AppCompatActivity() {
                 }
             }
         } else {
-            Toast.makeText(this, "Please select an image and enter a description", Toast.LENGTH_SHORT).show()
+            Toast.makeText(
+                this,
+                "Please select an image and enter a description",
+                Toast.LENGTH_SHORT
+            ).show()
         }
     }
 
@@ -150,20 +161,41 @@ class AddStoryActivity : AppCompatActivity() {
         return tempFile
     }
 
-    private fun bitmapToFile(bitmap: Bitmap): File {
+    private fun bitmapToFile(bitmap: Bitmap): File? {
         val filesDir = applicationContext.filesDir
         val imageFile = File(filesDir, "image_${System.currentTimeMillis()}.jpg")
 
-        val os: OutputStream
+        var os: OutputStream? = null
         try {
             os = FileOutputStream(imageFile)
-            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, os)
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 85, os)
             os.flush()
             os.close()
         } catch (e: Exception) {
             e.printStackTrace()
+            return null
+        } finally {
+            os?.close()
         }
 
         return imageFile
     }
+
+    private fun compressImage(imageFile: File): File {
+        val compressedFile = File(cacheDir, "compressed_${imageFile.name}")
+        val bitmap = BitmapFactory.decodeFile(imageFile.path)
+
+        var outputStream: FileOutputStream? = null
+        try {
+            outputStream = FileOutputStream(compressedFile)
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 85, outputStream)
+        } catch (e: Exception) {
+            e.printStackTrace()
+        } finally {
+            outputStream?.close()
+        }
+
+        return compressedFile
+    }
+
 }

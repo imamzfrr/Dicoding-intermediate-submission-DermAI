@@ -2,7 +2,7 @@
     <string name="app_name">SubmissionSatu</string>
     <string name="signup">Daftar</string>
     <string name="login">Masuk</string>
-    <string name="message_welcome_page">Mau mengetahui skincare recommendation kamu? Di DermAI aja!</string>
+    <string name="message_welcome_page">Mau mengetahui platform sharing skincare recommendation yang cocok untuk kamu? Di DermAI aja!</string>
     <string name="title_welcome_page">Selamat datang di DermAI!</string>
     <string name="title_signup_page">Lengkapi data diri dibawah!</string>
     <string name="email">Email</string>

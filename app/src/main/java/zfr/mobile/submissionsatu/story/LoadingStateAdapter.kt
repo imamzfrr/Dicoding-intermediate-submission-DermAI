@@ -8,9 +8,13 @@ import androidx.paging.LoadStateAdapter
 import androidx.recyclerview.widget.RecyclerView
 import zfr.mobile.submissionsatu.databinding.ItemLoadingStateBinding
 
-class LoadingStateAdapter(private val retry: () -> Unit) : LoadStateAdapter<LoadingStateAdapter.LoadStateViewHolder>() {
+class LoadingStateAdapter(private val retry: () -> Unit) :
+    LoadStateAdapter<LoadingStateAdapter.LoadStateViewHolder>() {
 
-    inner class LoadStateViewHolder(private val binding: ItemLoadingStateBinding, retry: () -> Unit) :
+    inner class LoadStateViewHolder(
+        private val binding: ItemLoadingStateBinding,
+        retry: () -> Unit
+    ) :
         RecyclerView.ViewHolder(binding.root) {
 
         init {
@@ -25,7 +29,8 @@ class LoadingStateAdapter(private val retry: () -> Unit) : LoadStateAdapter<Load
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, loadState: LoadState): LoadStateViewHolder {
-        val binding = ItemLoadingStateBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val binding =
+            ItemLoadingStateBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return LoadStateViewHolder(binding, retry)
     }
 

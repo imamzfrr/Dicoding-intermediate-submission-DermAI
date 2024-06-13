@@ -56,9 +56,12 @@ class StoryActivity : AppCompatActivity() {
             val isListEmpty = loadState.refresh is LoadState.NotLoading && adapter.itemCount == 0
             binding.recyclerViewStories.visibility = if (isListEmpty) View.GONE else View.VISIBLE
             binding.tvEmpty.visibility = if (isListEmpty) View.VISIBLE else View.GONE
-            binding.recyclerViewStories.visibility = if (loadState.source.refresh is LoadState.NotLoading) View.VISIBLE else View.GONE
-            binding.progressBar.visibility = if (loadState.source.refresh is LoadState.Loading) View.VISIBLE else View.GONE
-            binding.tvError.visibility = if (loadState.source.refresh is LoadState.Error) View.VISIBLE else View.GONE
+            binding.recyclerViewStories.visibility =
+                if (loadState.source.refresh is LoadState.NotLoading) View.VISIBLE else View.GONE
+            binding.progressBar.visibility =
+                if (loadState.source.refresh is LoadState.Loading) View.VISIBLE else View.GONE
+            binding.tvError.visibility =
+                if (loadState.source.refresh is LoadState.Error) View.VISIBLE else View.GONE
         }
 
         binding.fabAddStory.setOnClickListener {

@@ -8,6 +8,10 @@ android {
     namespace = "zfr.mobile.submissionsatu"
     compileSdk = 34
 
+    testOptions {
+        unitTests.isReturnDefaultValues = true
+    }
+
     defaultConfig {
         applicationId = "zfr.mobile.submissionsatu"
         minSdk = 24
@@ -47,24 +51,19 @@ dependencies {
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
     implementation("com.google.android.gms:play-services-maps:18.2.0")
     implementation("androidx.paging:paging-common-android:3.3.0")
-
     implementation("androidx.datastore:datastore-preferences:1.1.1")
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.8.1")
     implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.8.1")
     implementation("androidx.activity:activity-ktx:1.9.0")
-
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
     implementation("com.squareup.retrofit2:converter-gson:2.9.0")
     implementation("com.squareup.okhttp3:logging-interceptor:4.11.0")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.8.1")
-
     implementation("com.github.bumptech.glide:glide:4.16.0")
-
     implementation("androidx.paging:paging-runtime-ktx:3.3.0")
     implementation("org.testng:testng:6.9.6")
     implementation("androidx.test.ext:junit-ktx:1.1.5")
     implementation("androidx.paging:paging-compose-android:3.3.0")
-    implementation ("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3")
 
     // Testing libraries
     testImplementation("junit:junit:4.13.2")
@@ -75,8 +74,18 @@ dependencies {
     testImplementation("androidx.test.espresso:espresso-core:3.5.1")
     testImplementation("androidx.paging:paging-common-ktx:3.3.0")
     testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.7.3")
-    testImplementation(project(mapOf("path" to ":app")))
-    testImplementation(project(mapOf("path" to ":app")))
-    testImplementation(project(mapOf("path" to ":app")))
-    testImplementation(project(mapOf("path" to ":app")))
+
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3")
+
+    // Exclude conflicting module
+    implementation("com.google.guava:guava:16.0.1") {
+        exclude(group = "com.google.guava", module = "listenablefuture")
+    }
+
+    implementation ("com.google.guava:listenablefuture:9999.0-empty-to-avoid-conflict-with-guava")
+    testImplementation("org.junit.jupiter:junit-jupiter:5.8.1")
+    testImplementation ("org.robolectric:robolectric:4.9")
+
 }
+
